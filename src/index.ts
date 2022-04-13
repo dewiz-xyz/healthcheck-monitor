@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParserErrorHandler());
 
 app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "OK", env: process.env });
+  res.json({ message: "OK", env: JSON.stringify(process.env) });
 });
 
 app.post("/", async (req: Request, res: Response) => {
