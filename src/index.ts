@@ -3,7 +3,6 @@ import bodyParser from "body-parser";
 
 import { bodyParserErrorHandler } from "./errorHandler";
 import healthCheck from "./healthcheck";
-import runCronJobs from "./cron-jobs";
 
 const app: Application = express();
 
@@ -32,7 +31,3 @@ app.listen(app.get("port"), () => {
 process.on("uncaughtException", function (err: Error) {
  console.error(err);
 })
-
-// Run cron jobs
-runCronJobs();
-
