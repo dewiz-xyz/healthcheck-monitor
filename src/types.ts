@@ -1,4 +1,4 @@
-import { HealthChecks } from './healthcheck'
+import { HealthChecks } from "./healthcheck";
 
 export type DiscordMessage = {
   callbackUrl: string;
@@ -6,13 +6,13 @@ export type DiscordMessage = {
   username?: string;
   avatar_url?: string;
   embeds?: Record<any, any>[];
-}
+};
 
 export type CheckData = {
   params: Array<any>,
   type: Checks,
   message?: DiscordMessage
-}
+};
 
 export type Checks = "downtime";
 

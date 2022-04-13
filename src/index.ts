@@ -1,10 +1,9 @@
 import express, { Application, Request, Response } from "express";
 import bodyParser from "body-parser";
 
-import { sendToDiscord } from './discord'
-import { bodyParserErrorHandler } from './errorHandler'
-import CheckFn from './healthcheck'
-import { isCheckRequest } from './types'
+import { bodyParserErrorHandler } from "./errorHandler";
+import healthCheck from "./healthcheck";
+import runCronJobs from "./cron-jobs";
 
 const app: Application = express();
 
@@ -14,22 +13,15 @@ app.use(bodyParser.json());
 app.use(bodyParserErrorHandler());
 
 app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "OK", i });
+  res.json({ message: "OK" });
 });
-let i = 0;
-setInterval(() => {
-  i += 1
-}, 1000)
+
 app.post("/", async (req: Request, res: Response) => {
   const { body } = req;
-  if (isCheckRequest(body)) {
-    const healthy = await CheckFn[body.type](...body.params)
-    if (!healthy && body.message) {
-      await sendToDiscord(body.message);
-    }
-    res.json({ healthy });
-  } else {
-    res.status(400).json({ error: "Invalid request data" });
+  try {
+    res.json({ healthy: await healthCheck(body) });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 })
 
@@ -37,7 +29,10 @@ app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}/`);
 });
 
-process.on('uncaughtException', function (err: Error) {
+process.on("uncaughtException", function (err: Error) {
  console.error(err);
 })
+
+// Run cron jobs
+runCronJobs();
 
