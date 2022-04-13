@@ -20,7 +20,7 @@ const JOBS = [
     'name': 'Test Cron Job',
     'type': 'downtime',
     'params': ['https://diis123-group-ui-goerli.vercel.app'],
-    'interval': 6000,
+    'interval': 10000,
     'message': {
       'callbackUrl': process.env.DISCORD_WEBHOOK,
       'embeds': [
