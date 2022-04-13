@@ -1,13 +1,17 @@
-import http from 'http';
+import express, { Application, Request, Response } from "express";
 
-const PORT = process.env.PORT || 3000;
+const app: Application = express();
 
-const server = http.createServer((req, res) => {
-  console.log('Here')
-  res.statusCode = 200;
-  res.end('Ok');
+app.set("port", process.env.PORT || 3000);
+
+app.get("/", (_req: Request, res: Response) => {
+  res.json({ message: "OK" });
 });
 
-server.listen(PORT, () => {
-  console.log(`Server running at port ${PORT}`);
+app.post("/", (req: Request, res: Response) => {
+  res.json({ message: "OK", params: req.body });
+})
+
+app.listen(app.get("port"), () => {
+  console.log(`Server on http://localhost:${app.get("port")}/`);
 });
