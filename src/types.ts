@@ -1,6 +1,7 @@
 import { HealthChecks } from './healthcheck'
 
 export type DiscordMessage = {
+  callbackUrl: string;
   content?: string;
   username?: string;
   avatar_url?: string;
@@ -20,6 +21,6 @@ export const isCheckRequest = (data: CheckData): data is CheckData => {
     data.params && Array.isArray(data.params)
     && data.type
     && HealthChecks[data.type] !== undefined
-    && (data.message ? (data.message.content || data.message.embeds) : true)
+    && (data.message ? (data.message.callbackUrl && (data.message.content || data.message.embeds)) : true)
   );
 }
