@@ -18,7 +18,7 @@ app.get("/", (_req: Request, res: Response) => {
 app.post("/", async (req: Request, res: Response) => {
   const { body } = req;
   try {
-    res.json({ healthy: await healthCheck(body), discord: body.message.callbackUrl });
+    res.json({ healthy: await healthCheck(body) });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
