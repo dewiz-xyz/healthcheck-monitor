@@ -14,9 +14,12 @@ app.use(bodyParser.json());
 app.use(bodyParserErrorHandler());
 
 app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "OK" });
+  res.json({ message: "OK", i });
 });
-
+let i = 0;
+setInterval(() => {
+  i += 1
+}, 1000)
 app.post("/", async (req: Request, res: Response) => {
   const { body } = req;
   if (isCheckRequest(body)) {
